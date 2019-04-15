@@ -1,0 +1,21 @@
+{
+  "name": "greet_bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://so_scare_wow@bitbucket.org/so_scare_wow/greet_bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/so_scare_wow/greet_bot#readme",
+  "dependencies": {
+    "@line/bot-sdk": "^6.6.0",
+    "express": "^4.16.4"
+  }
+}
