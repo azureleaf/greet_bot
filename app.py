@@ -27,23 +27,29 @@ if channel_access_token is None:
     print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
     sys.exit(1)
 
+# Instantiate classes of linebot package
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 
 
 @app.route("/")
 def hello_world():
+    """Used to test if Flask
+        Args: none
+        Returns: string
+    """
     return "hello world!"
 
 
 @app.route("/callback", methods=['POST'])
 def callback():
-    """
+    """ Validate the request content
         Args: none
-        Returns: Http 400 code, or "OK"
+        Returns: string
+            Http 400 message, or "OK"
     """
     # get X-Line-Signature header value
-    # It seems that request from the LINE has signature
+    # Seemingly request from the LINE has signature
     # for authorized secure communication
     signature = request.headers['X-Line-Signature']
 
@@ -55,7 +61,8 @@ def callback():
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
-        # abort() is specific to Flask
+        # Abort if the calculated value isn't identical with the signature
+        # abort() is the internal function in Flask
         # 400 returns "The browser (or proxy) sent a request
         #   that this server could not understand."
         abort(400)
@@ -65,8 +72,9 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    """"""
     line_bot_api.reply_message(
-        event.reply_token,
+        event.reply_token,  # what's this?
         TextSendMessage(text=event.message.text))
 
 
