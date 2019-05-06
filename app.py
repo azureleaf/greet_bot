@@ -55,6 +55,8 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
+
+    # How can I check this log files?
     app.logger.info("Request body: " + body)
 
     # handle webhook body
@@ -74,7 +76,7 @@ def callback():
 def handle_message(event):
     """"""
     line_bot_api.reply_message(
-        event.reply_token,  # what's this?
+        event.reply_token,
         TextSendMessage(text=event.message.text))
 
 
