@@ -75,11 +75,21 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    """"""
+    """ Return messages to the LINE user
+        args: event
+        return: void
+    """
+
+    if "天気" in event.message.text:
+        reply_msg = get_weather()
+    else:
+        reply_msg = "こんにちは！"
+
     line_bot_api.reply_message(
         event.reply_token,
         # TextSendMessage(text=event.message.text))
-        TextSendMessage(text=get_weather()))
+        TextSendMessage(text=reply_msg)
+    )
 
 # print(get_weather())
 
