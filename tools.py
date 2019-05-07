@@ -10,8 +10,9 @@ def get_weather():
     data_dict = json.loads(html)
 
     weather = data_dict['weather'][0]['main']
+    temp_now = data_dict['main']['temp'] - 273.15
     temp_max = data_dict['main']['temp_max'] - 273.15
 
     fetch_data.close()
 
-    return "こんにちは！今日の仙台の天気は" + str(weather) + "、最高気温は" + str(temp_max) + "です。"
+    return "こんにちは！今日の仙台の天気は{}、最高気温は{}度です。今の気温は{}度ですね。".format(weather, str(round(temp_max, 1)), str(round(temp_now, 1)))
