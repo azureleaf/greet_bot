@@ -82,7 +82,5 @@ def handle_message(event):
         TextSendMessage(text=get_weather()))
 
 
-get_weather()
-
-# if __name__ == "__main__":
-#     app.run()
+if __name__ == "__main__":
+    app.run()
