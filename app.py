@@ -1,6 +1,7 @@
 import os
 import sys
 from flask import Flask, request, abort
+from tools import get_weather
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -77,8 +78,11 @@ def handle_message(event):
     """"""
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text))
+        # TextSendMessage(text=event.message.text))
+        TextSendMessage(text=get_weather()))
 
 
-if __name__ == "__main__":
-    app.run()
+get_weather()
+
+# if __name__ == "__main__":
+#     app.run()
