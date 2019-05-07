@@ -14,4 +14,4 @@ def get_weather():
 
     fetch_data.close()
 
-    return "こんにちは。今日の天気は" + weather + "、最高気温は" + temp_max + "です。"
+    return "こんにちは！今日の仙台の天気は" + str(weather) + "、最高気温は" + str(temp_max) + "です。"
