@@ -15,4 +15,5 @@ def get_weather():
 
     fetch_data.close()
 
-    return "こんにちは！今日の仙台の天気は{}、最高気温は{}度です。今の気温は{}度ですね。".format(weather, str(round(temp_max, 1)), str(round(temp_now, 1)))
+    return "今日の仙台の天気は{}、予想最高気温は{}度です。今の気温は{}度ですね。" \
+        .format(weather, str(round(temp_max, 1)), str(round(temp_now, 1)))
