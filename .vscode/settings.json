@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "c:\\Users\\akiba\\Documents\\repos\\greet_bot\\v_greetbot\\Scripts\\python.exe"
+    "python.pythonPath": "v_greetbot\\Scripts\\python.exe",
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true
 }

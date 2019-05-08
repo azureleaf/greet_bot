@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ksj:GI xmlns:ksj="http://nlftp.mlit.go.jp/ksj/schemas/ksj-app" xmlns:ksjc="http://nlftp.mlit.go.jp/ksj/schemas/ksj-app-cd" xmlns:jps="http://www.gsi.go.jp/GIS/jpgis/standardSchemas" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://nlftp.mlit.go.jp/ksj/schemas/ksj-app KsjAppSchema-P11.xsd" version="1.0" timeStamp="2012-03-14T15:47:44">
+	<ksj:OBJ>
+        <ksj:AA01>
+            <jps:GM_Point id="n5485">
+                <jps:GM_Point.position>
+                    <jps:DirectPosition>
+                        <DirectPosition.coordinate>38.25794594 140.90144484</DirectPosition.coordinate>
+                        <DirectPosition.dimension>2</DirectPosition.dimension>
+                    </jps:DirectPosition>
+                </jps:GM_Point.position>
+            </jps:GM_Point>
+            <jps:GM_Point id="n5486">
+                <jps:GM_Point.position>
+                    <jps:DirectPosition>
+                        <DirectPosition.coordinate>38.52140324 140.93885282</DirectPosition.coordinate>
+                        <DirectPosition.dimension>2</DirectPosition.dimension>
+                    </jps:DirectPosition>
+                </jps:GM_Point.position>
+            </jps:GM_Point>
+            <jps:GM_Point id="n5487">
+                <jps:GM_Point.position>
+                    <jps:DirectPosition>
+                        <DirectPosition.coordinate>38.57790952 140.96702455</DirectPosition.coordinate>
+                        <DirectPosition.dimension>2</DirectPosition.dimension>
+                    </jps:DirectPosition>
+                </jps:GM_Point.position>
+            </jps:GM_Point>
+            <jps:GM_Point id="n5488">
+                <jps:GM_Point.position>
+                    <jps:DirectPosition>
+                        <DirectPosition.coordinate>38.25978015 140.88044505</DirectPosition.coordinate>
+                        <DirectPosition.dimension>2</DirectPosition.dimension>
+                    </jps:DirectPosition>
+                </jps:GM_Point.position>
+            </jps:GM_Point>
+            <jps:GM_Point id="n5489">
+                <jps:GM_Point.position>
+                    <jps:DirectPosition>
+                        <DirectPosition.coordinate>38.33400136 140.61297728</DirectPosition.coordinate>
+                        <DirectPosition.dimension>2</DirectPosition.dimension>
+                    </jps:DirectPosition>
+                </jps:GM_Point.position>
+            </jps:GM_Point>
+            <jps:GM_Point id="n5490">
+                <jps:GM_Point.position>
+                    <jps:DirectPosition>
+                        <DirectPosition.coordinate>38.26837152 140.87019751</DirectPosition.coordinate>
+                        <DirectPosition.dimension>2</DirectPosition.dimension>
+                    </jps:DirectPosition>
+                </jps:GM_Point.position>
+            </jps:GM_Point>
+            <jps:GM_Point id="n5491">
+                <jps:GM_Point.position>
+                    <jps:DirectPosition>
+                        <DirectPosition.coordinate>38.26308294 140.87978266</DirectPosition.coordinate>
+                        <DirectPosition.dimension>2</DirectPosition.dimension>
+                    </jps:DirectPosition>
+                </jps:GM_Point.position>
+            </jps:GM_Point>
+            <jps:GM_Point id="n5492">
+                <jps:GM_Point.position>
+                    <jps:DirectPosition>
+                        <DirectPosition.coordinate>38.32936217 140.97435007</DirectPosition.coordinate>
+                        <DirectPosition.dimension>2</DirectPosition.dimension>
+                    </jps:DirectPosition>
+                </jps:GM_Point.position>
+            </jps:GM_Point>
+            <jps:GM_Point id="n5493">
+                <jps:GM_Point.position>
+                    <jps:DirectPosition>
+                        <DirectPosition.coordinate>38.26248897 140.87990517</DirectPosition.coordinate>
+                        <DirectPosition.dimension>2</DirectPosition.dimension>
+                    </jps:DirectPosition>
+                </jps:GM_Point.position>
+            </jps:GM_Point>
+            <jps:GM_Point id="n5494">
+                <jps:GM_Point.position>
+                    <jps:DirectPosition>
+                        <DirectPosition.coordinate>38.78503309 141.09882464</DirectPosition.coordinate>
+                        <DirectPosition.dimension>2</DirectPosition.dimension>
+                    </jps:DirectPosition>
+                </jps:GM_Point.position>
+            </jps:GM_Point>
+            <jps:GM_Point id="n5495">
+                <jps:GM_Point.position>
+                    <jps:DirectPosition>
+                        <DirectPosition.coordinate>38.73153348 141.02630849</DirectPosition.coordinate>
+                        <DirectPosition.dimension>2</DirectPosition.dimension>
+                    </jps:DirectPosition>
+                </jps:GM_Point.position>
+            </jps:GM_Point>
+            <jps:GM_Point id="n5496">
+                <jps:GM_Point.position>
+                    <jps:DirectPosition>
+                        <DirectPosition.coordinate>38.78860495 141.08673648</DirectPosition.coordinate>
+                        <DirectPosition.dimension>2</DirectPosition.dimension>
+                    </jps:DirectPosition>
+                </jps:GM_Point.position>
+            </jps:GM_Point>
+            <jps:GM_Point id="n5497">
+                <jps:GM_Point.position>
+                    <jps:DirectPosition>
+                        <DirectPosition.coordinate>38.26172076 140.87398754</DirectPosition.coordinate>
+                        <DirectPosition.dimension>2</DirectPosition.dimension>
+                    </jps:DirectPosition>
+                </jps:GM_Point.position>
+            </jps:GM_Point>
+            <jps:GM_Point id="n5498">
+                <jps:GM_Point.position>
+                    <jps:DirectPosition>
+                        <DirectPosition.coordinate>38.26461265 140.87222671</DirectPosition.coordinate>
+                        <DirectPosition.dimension>2</DirectPosition.dimension>
+                    </jps:DirectPosition>
+                </jps:GM_Point.position>
+            </jps:GM_Point>
+            <jps:GM_Point id="n5499">
+                <jps:GM_Point.position>
+                    <jps:DirectPosition>
+                        <DirectPosition.coordinate>38.26245699 140.87198605</DirectPosition.coordinate>
+                        <DirectPosition.dimension>2</DirectPosition.dimension>
+                    </jps:DirectPosition>
+                </jps:GM_Point.position>
+            </jps:GM_Point>
+            <jps:GM_Point id="n5500">
+                <jps:GM_Point.position>
+                    <jps:DirectPosition>
+                        <DirectPosition.coordinate>38.26069856 140.87853322</DirectPosition.coordinate>
+                        <DirectPosition.dimension>2</DirectPosition.dimension>
+                    </jps:DirectPosition>
+                </jps:GM_Point.position>
+            </jps:GM_Point>
+            <jps:GM_Point id="n5501">
+                <jps:GM_Point.position>
+                    <jps:DirectPosition>
+                        <DirectPosition.coordinate>38.26308294 140.87978266</DirectPosition.coordinate>
+                        <DirectPosition.dimension>2</DirectPosition.dimension>
+                    </jps:DirectPosition>
+                </jps:GM_Point.position>
+            </jps:GM_Point>
+        </ksj:AA01>
+    </ksj:OBJ>
+</ksj:GI>
