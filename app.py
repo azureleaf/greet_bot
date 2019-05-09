@@ -1,7 +1,7 @@
 import os
 import sys
 from flask import Flask, request, abort
-from tools import get_weather
+from tools import get_weather, find_closest_stops
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -94,7 +94,27 @@ def handle_message(event):
         ]
     )
 
-# print(get_weather())
+
+@handler.add(MessageEvent, message=LocationMessage)
+def handle_location(event):
+
+    lat = event.message.latitude
+    lon = event.message.longitude
+
+    stops = find_closest_stops(lat, lon, 0.5)
+
+    reply_msg = ""
+    for stop in stops:
+        reply_msg += "バス停名：" + stop[0] + \
+            "距離：" + str(round(stop[1]*1000)) + "メートル"
+
+    line_bot_api.reply_message(
+        event.reply_token,
+        [
+            TextSendMessage(text="近くにあるバス停のリストです！"),
+            TextSendMessage(text=reply_msg)
+        ]
+    )
 
 
 if __name__ == "__main__":

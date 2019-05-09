@@ -2,6 +2,152 @@
 <ksj:GI xmlns:ksj="http://nlftp.mlit.go.jp/ksj/schemas/ksj-app" xmlns:ksjc="http://nlftp.mlit.go.jp/ksj/schemas/ksj-app-cd" xmlns:jps="http://www.gsi.go.jp/GIS/jpgis/standardSchemas" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://nlftp.mlit.go.jp/ksj/schemas/ksj-app KsjAppSchema-P11.xsd" version="1.0" timeStamp="2012-03-14T15:47:44">
 	<ksj:OBJ>
         <ksj:AA01>
+            <ksj:ED01 id="ED01_5485">
+                <ksj:POS idref="n5485" />
+                <ksj:BSN>宮城球場</ksj:BSN>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>JRバス東北（株）</ksj:BOC>
+                    <ksj:BLN>アーバン号</ksj:BLN>
+                </ksj:BRI>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>JRバス東北（株）</ksj:BOC>
+                    <ksj:BLN>仙台～会津若松線</ksj:BLN>
+                </ksj:BRI>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>JRバス東北（株）</ksj:BOC>
+                    <ksj:BLN>仙台～郡山・須賀川線</ksj:BLN>
+                </ksj:BRI>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>JRバス東北（株）</ksj:BOC>
+                    <ksj:BLN>仙台～古川線</ksj:BLN>
+                </ksj:BRI>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>JRバス東北（株）</ksj:BOC>
+                    <ksj:BLN>仙台～江刺・水沢線</ksj:BLN>
+                </ksj:BRI>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>JRバス東北（株）</ksj:BOC>
+                    <ksj:BLN>仙台～福島線</ksj:BLN>
+                </ksj:BRI>
+            </ksj:ED01>
+            <ksj:ED01 id="ED01_5486">
+                <ksj:POS idref="n5486" />
+                <ksj:BSN>道の駅三本木</ksj:BSN>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>JRバス東北（株）</ksj:BOC>
+                    <ksj:BLN>ドリームササニシキ号</ksj:BLN>
+                </ksj:BRI>
+            </ksj:ED01>
+            <ksj:ED01 id="ED01_5487">
+                <ksj:POS idref="n5487" />
+                <ksj:BSN>営業所前</ksj:BSN>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>JRバス東北（株）</ksj:BOC>
+                    <ksj:BLN>仙台～古川線</ksj:BLN>
+                </ksj:BRI>
+            </ksj:ED01>
+            <ksj:ED01 id="ED01_5488">
+                <ksj:POS idref="n5488" />
+                <ksj:BSN>仙台駅西口</ksj:BSN>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>JRバス東北（株）</ksj:BOC>
+                    <ksj:BLN>仙台～古川線</ksj:BLN>
+                </ksj:BRI>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>成田空港交通</ksj:BOC>
+                    <ksj:BLN>仙台線</ksj:BLN>
+                </ksj:BRI>
+            </ksj:ED01>
+            <ksj:ED01 id="ED01_5489">
+                <ksj:POS idref="n5489" />
+                <ksj:BSN>作並温泉</ksj:BSN>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>山交バス（株）</ksj:BOC>
+                    <ksj:BLN>48チェリーライナー</ksj:BLN>
+                </ksj:BRI>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>山交バス（株）</ksj:BOC>
+                    <ksj:BLN>48ライナー</ksj:BLN>
+                </ksj:BRI>
+            </ksj:ED01>
+            <ksj:ED01 id="ED01_5490">
+                <ksj:POS idref="n5490" />
+                <ksj:BSN>宮城県庁市役所</ksj:BSN>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>山交バス（株）</ksj:BOC>
+                    <ksj:BLN>山形-仙台</ksj:BLN>
+                </ksj:BRI>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>山交バス（株）</ksj:BOC>
+                    <ksj:BLN>上山-仙台</ksj:BLN>
+                </ksj:BRI>
+            </ksj:ED01>
+            <ksj:ED01 id="ED01_5491">
+                <ksj:POS idref="n5491" />
+                <ksj:BSN>仙台営業所</ksj:BSN>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>東北急行バス（株）</ksj:BOC>
+                    <ksj:BLN>エススター号</ksj:BLN>
+                </ksj:BRI>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>東北急行バス（株）</ksj:BOC>
+                    <ksj:BLN>スイート号</ksj:BLN>
+                </ksj:BRI>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>東北急行バス（株）</ksj:BOC>
+                    <ksj:BLN>ニュースター号</ksj:BLN>
+                </ksj:BRI>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>東北急行バス（株）</ksj:BOC>
+                    <ksj:BLN>ホリデースター号</ksj:BLN>
+                </ksj:BRI>
+            </ksj:ED01>
+            <ksj:ED01 id="ED01_5492">
+                <ksj:POS idref="n5492" />
+                <ksj:BSN>利府役場前</ksj:BSN>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>宮城交通（株）</ksj:BOC>
+                    <ksj:BLN>広瀬ライナー</ksj:BLN>
+                </ksj:BRI>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>京王バス南（株）</ksj:BOC>
+                    <ksj:BLN>新宿・渋谷～仙台・石巻線</ksj:BLN>
+                </ksj:BRI>
+            </ksj:ED01>
+            <ksj:ED01 id="ED01_5493">
+                <ksj:POS idref="n5493" />
+                <ksj:BSN>宮交仙台高速バスセンター</ksj:BSN>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>羽後交通（株）</ksj:BOC>
+                    <ksj:BLN>本荘仙台線</ksj:BLN>
+                </ksj:BRI>
+                <ksj:BRI>
+                    <ksj:BSC codeSpace="BasukubunCd.xml">1</ksj:BSC>
+                    <ksj:BOC>京王バス南（株）</ksj:BOC>
+                    <ksj:BLN>新宿・渋谷～仙台・石巻線</ksj:BLN>
+                </ksj:BRI>
+            </ksj:ED01>
             <jps:GM_Point id="n5485">
                 <jps:GM_Point.position>
                     <jps:DirectPosition>
