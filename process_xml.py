@@ -12,13 +12,13 @@ namespaces = {
     "xlink": "http://www.w3.org/1999/xlink",
     "schemaLocation": "http://nlftp.mlit.go.jp/ksj/schemas/ksj-app \
         KsjAppSchema-P11.xsd",
-
 }
 
 # FOR TEST USE: sample xml file to check the function
 # tree = ET.parse('sample.xml')
 
 tree = ET.parse('P11-10_04-jgd.xml')
+
 root = tree.getroot()
 
 # Error handling for sqlite
@@ -64,7 +64,7 @@ try:
             # Extract bus stop name
             stop_name = stop.find(".//ksj:BSN", namespaces).text
 
-            # Extract bus stop id: e.g. "n2210", and remove "n"
+            # Extract bus stop id (e.g. "n2210") and remove "n"
             stop_id_str = stop.find(".//ksj:POS", namespaces).attrib['idref']
             stop_id_int = int(stop_id_str.strip("n"))
 
@@ -74,11 +74,12 @@ try:
         conn.commit()
 
         def show_database():
-            """FOR TEST USE: check the content of the database"""
+            """FUNCTION FOR TEST USE ONLY
+            check the content of the database"""
             c.execute("SELECT * FROM stops")
             print(c.fetchall())
 
         show_database()
 
 except sqlite3.Error as e:
-    print("Error occured in sqlite! :", e.args[0])
+    print("Error in sqlite: ", e.args[0])

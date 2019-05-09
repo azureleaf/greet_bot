@@ -10,7 +10,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage, LocationMessage, TextSendMessage,
 )
 
 # Instantiate Flask class
@@ -105,13 +105,13 @@ def handle_location(event):
 
     reply_msg = ""
     for stop in stops:
-        reply_msg += "バス停名：" + stop[0] + \
-            "距離：" + str(round(stop[1]*1000)) + "メートル"
+        reply_msg += "「" + stop[0] + \
+            "」まで" + str(round(stop[1]*1000)) + "メートルです。\n"
 
     line_bot_api.reply_message(
         event.reply_token,
         [
-            TextSendMessage(text="近くにあるバス停のリストです！"),
+            TextSendMessage(text="近くにあるバス停はこちらです！"),
             TextSendMessage(text=reply_msg)
         ]
     )
