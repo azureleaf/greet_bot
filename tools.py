@@ -145,7 +145,12 @@ if __name__ == "__main__":
     # distance_to_degree(
     #     1, fukushima_city_hall["lat"], sendai_city_hall["lon"])
 
+    # print(find_closest_stops(
+    #     sendai_city_hall["lat"],
+    #     sendai_city_hall["lon"],
+    #     0.5))
+
     print(find_closest_stops(
-        sendai_city_hall["lat"],
-        sendai_city_hall["lon"],
-        0.5))
+        38.268783,
+        140.762168,
+        1))
