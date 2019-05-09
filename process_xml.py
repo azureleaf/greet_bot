@@ -40,7 +40,8 @@ try:
             lon REAL)'''
         c.execute(sql_create)
 
-        # When you want to identify a tag which includes namespace,
+        # When you identify a XML tag which includes namespace,
+        # (e.g. "jsp" is namespace in <jsp:books id="123">),
         # you must declare mapping of namespace to URL
         for stop in root.findall(".//jps:GM_Point", namespaces):
 
@@ -75,7 +76,7 @@ try:
 
         def show_database():
             """FUNCTION FOR TEST USE ONLY
-            check the content of the database"""
+            Show the content of the database"""
             c.execute("SELECT * FROM stops")
             print(c.fetchall())
 

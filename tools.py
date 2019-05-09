@@ -101,10 +101,10 @@ def find_closest_stops(lat, lon, range_km):
 
 def get_distance(lat1_deg, lon1_deg, lat2_deg, lon2_deg):
     ''' Get GPS position of 2 points, returns absolute distance
-        maybe based on 球面三角法
+        Calculation based on Spherical Trigonometry (球面三角法)
         Args:
             lat1_deg, lon1_deg, lat2_deg, lon2_deg (float)
-                latitude & coordinates of 2 points
+                latitude & coordinates (in degrees) of 2 points
         Return:
             distance in km (float)
     '''

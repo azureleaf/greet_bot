@@ -89,7 +89,6 @@ def handle_message(event):
         event.reply_token,
         # TextSendMessage(text=event.message.text))
         [
-            TextSendMessage(text="天気ですね！"),
             TextSendMessage(text=reply_msg)
         ]
     )
