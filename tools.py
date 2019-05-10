@@ -10,7 +10,7 @@ db_path = os.getcwd() + '/busstop.db'
 open_weather_api_key = "ef73002b35f939a39e156f73f739a534"
 open_weather_city_name = "Sendai"
 
-# FOR TEST USE: coordinates of some points
+# FOR TEST USE: coordinates of some sample points
 sendai_city_hall = {
     "lat": 38.2682,
     "lon": 140.8694}

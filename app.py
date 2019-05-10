@@ -57,7 +57,7 @@ def callback():
     # get request body as text
     body = request.get_data(as_text=True)
 
-    # How can I check this log files?
+    # How can I check this log files???
     app.logger.info("Request body: " + body)
 
     # handle webhook body
@@ -75,11 +75,13 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    """ Return messages to the LINE user
+    """ Return messages to the LINE user who sent text message
         args: event
         return: void
     """
 
+    # Change reply message from the bot
+    # according to the keywords included in the message by user
     if "天気" in event.message.text:
         reply_msg = get_weather()
     else:
@@ -96,6 +98,10 @@ def handle_message(event):
 
 @handler.add(MessageEvent, message=LocationMessage)
 def handle_location(event):
+    """ Return messages to the LINE user who sent geo location
+        args: event
+        return: void
+    """
 
     lat = event.message.latitude
     lon = event.message.longitude
