@@ -1,0 +1,4 @@
+__pycache__
+v_greetbot/
+.env
+*.xml
