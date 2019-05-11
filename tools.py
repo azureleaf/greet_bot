@@ -5,7 +5,7 @@ import os
 from contextlib import closing
 from math import sin, cos, sqrt, atan2, radians
 
-# setting variables
+# Set user variables
 db_path = os.getcwd() + '/busstop.db'
 open_weather_api_key = "ef73002b35f939a39e156f73f739a534"
 open_weather_city_name = "Sendai"

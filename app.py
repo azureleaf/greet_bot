@@ -17,7 +17,7 @@ from linebot.models import (
 # Give the name of the current module to the constructor
 app = Flask(__name__)
 
-# Get keys from environment variables
+# Get keys from environment variables of the server
 channel_secret = os.environ['LINE_CHANNEL_SECRET']
 channel_access_token = os.environ['LINE_CHANNEL_ACCESS_TOKEN']
 
