@@ -7,7 +7,8 @@ from math import sin, cos, sqrt, atan2, radians
 
 # Set user variables
 db_path = os.getcwd() + '/busstop.db'
-open_weather_api_key = "ef73002b35f939a39e156f73f739a534"
+open_weather_api_key = os.environ['OPEN_WEATHER_API_KEY']
+
 open_weather_city_name = "Sendai"
 
 # FOR TEST USE: coordinates of some sample points
