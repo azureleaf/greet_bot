@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 import urllib.request
 import pandas as pd
+import constants
+import sqlite3
 
 
 def get_soup(root_url):
@@ -58,9 +60,12 @@ def soup2dfs(soup):
             [td_weekday, td_holiday] = hr_tr.find_all(
                 "td", {"id": "timetable"})
 
-            # Split "12 15 18 21" style string into a list
-            route_weekday[str(hr)] = td_weekday.string.split()
-            route_holiday[str(hr)] = td_holiday.string.split()
+            # Split "12 15 18 21" style string into a list,
+            # then join with "," symbol to store in the SQLite
+            trains_list = td_weekday.string.split()
+            route_weekday[str(hr)] = ",".join(trains_list)
+            trains_list = td_holiday.string.split()
+            route_holiday[str(hr)] = ",".join(trains_list)
 
         # Save the dict in the df
         dfs["holiday"] = dfs["holiday"].append(
@@ -106,6 +111,18 @@ def create_df():
     return df
 
 
+def dfs2sqlite(dfs):
+    conn = sqlite3.connect(constants.DB_PATH)
+    for day_type in ["weekday", "holiday"]:
+        dfs[day_type].to_sql(
+            "timetable_subway_" + day_type,
+            conn,
+            if_exists='replace',
+            index=None)
+    conn.close()
+    return 0
+
+
 if __name__ == "__main__":
 
     # urls = list_urls()
@@ -114,4 +131,4 @@ if __name__ == "__main__":
     with open("./raw/sendaista.html", mode="r", encoding="shift_jis") as f:
         soup = BeautifulSoup(f, "html.parser")
     dfs = soup2dfs(soup)
-    print(dfs["weekday"])
+    dfs2sqlite(dfs)
