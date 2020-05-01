@@ -10,6 +10,8 @@ autopep8 = "*"
 [packages]
 line-bot-sdk = "*"
 flask = "*"
+pandas = "*"
+bs4 = "*"
 
 [requires]
 python_version = "3.6"
