@@ -35,7 +35,7 @@ handler = WebhookHandler(channel_secret)
 
 @app.route("/")
 def hello_world():
-    """Used to test if Flask
+    """Test if the flask is correctly working
         Args: none
         Returns: string
     """

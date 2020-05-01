@@ -1,11 +1,7 @@
 import xml.etree.ElementTree as ET
-import os
 import sqlite3
+import constants
 from contextlib import closing
-
-# User variables
-db_path = os.getcwd() + '/busstop.db'
-xml_path = os.getcwd() + '/P11-10_04-jgd.xml'
 
 
 def xml2sqlite():
@@ -28,16 +24,14 @@ def xml2sqlite():
         KsjAppSchema-P11.xsd",
     }
 
-    # FOR TEST USE: sample xml file to check the function
-    # tree = ET.parse('sample.xml')
-    tree = ET.parse(xml_path)
+    tree = ET.parse(constants.BUS_POS_FILE_PATH)
     root = tree.getroot()
 
     # Error handling for sqlite
     try:
         # using "closing" is recommended
         # to avoid forgetting to close database
-        with closing(sqlite3.connect(db_path)) as conn:
+        with closing(sqlite3.connect(constants.DB_PATH)) as conn:
             c = conn.cursor()
 
             # Drop old table
