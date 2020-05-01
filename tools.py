@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from contextlib import closing
 from math import sin, cos, sqrt, atan2, radians
 import constants
+import numpy as np
 
 # Set user variables
 OPENWX = {
@@ -80,6 +81,10 @@ def find_closest_stops(lat, lon, range_km):
         Args:
             latutude, longitude (float)
                 degrees
+            range_km (float)
+                range of search;
+                e.g. when 2, search inside 4km * 4km
+                square around the point specified
         Returns:
             list of the names of the closest bus stops
     """
@@ -90,9 +95,9 @@ def find_closest_stops(lat, lon, range_km):
             # Search inside the range of the candidates bus stops
             # This range has the rectangular shapes;
             # current position +/- certain distance (here, range_km)
-            range_lat = distance_to_degree(
+            range_lat = km2deg(
                 range_km, lat, lon)["lat_deg"]
-            range_lon = distance_to_degree(
+            range_lon = km2deg(
                 range_km, lat, lon)["lon_deg"]
 
             c = conn.cursor()
@@ -133,6 +138,51 @@ def find_closest_stops(lat, lon, range_km):
         print("Error occured in sqlite! :", e.args[0])
 
 
+def find_nearest_station(lat, lon, dst):
+    """Get GPS coordinates, returns bus stops near the point
+        Args:
+            latutude, longitude (float)
+                degrees
+            dst (string)
+                Destination of the train.
+                "n1" for Izumi Chuo
+                "n17" for Tomizawa
+                "t1" for Yagiyama Zoological Park
+                "t13" for Arai
+        Returns:
+            string: nearest station name & timetable of coming trains
+            1: on error
+    """
+
+    # Row factory to get DB content as an array of dict
+    def dict_factory(cursor, row):
+        d = {}
+        for idx, col in enumerate(cursor.description):
+            d[col[0]] = row[idx]
+        return d
+
+    conn = sqlite3.connect(constants.DB_PATH)
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    line_name = "南北線" if ("n" in dst) else "東西線"
+    c.execute("SELECT * FROM stations WHERE line = ?;", [line_name])
+    stations = c.fetchall()
+
+    # Calculate distances to every station
+    distances = np.array(
+        [get_distance(lat, lon, station["lat"], station["lon"])
+         for station in stations]
+    )
+    nearest_d = np.amin(distances)
+
+    # Index of the station with the minimum distance
+    nearest_i = np.where(distances == nearest_d)[0][0]
+
+    return {
+        "station": stations[nearest_i]["name"],
+        "meters": int(round(nearest_d, 2) * 1000)}
+
+
 def get_distance(lat1_deg, lon1_deg, lat2_deg, lon2_deg):
     ''' Get GPS position of 2 points, returns absolute distance
         Calculation based on Spherical Trigonometry (球面三角法)
@@ -164,7 +214,7 @@ def get_distance(lat1_deg, lon1_deg, lat2_deg, lon2_deg):
     return distance
 
 
-def distance_to_degree(d_km, lat, lon):
+def km2deg(d_km, lat, lon):
     ''' Mapping distance into degree at the specific geo point
         Args:
             d_km (int)
@@ -192,8 +242,11 @@ def distance_to_degree(d_km, lat, lon):
     return degrees
 
 
-# For debugging
-if __name__ == "__main__":
+def wrapper():
+
+    nearest = find_nearest_station(38.258780, 140.851185, "t13")
+    print(nearest)
+    return
 
     print(get_weather())
 
@@ -201,3 +254,7 @@ if __name__ == "__main__":
         sendai_city_hall["lat"],
         sendai_city_hall["lon"],
         0.5))
+
+
+if __name__ == "__main__":
+    wrapper()
