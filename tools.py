@@ -5,13 +5,9 @@ import os
 from datetime import datetime, timedelta
 from contextlib import closing
 from math import sin, cos, sqrt, atan2, radians
+import constants
 
 # Set user variables
-db_path = os.getcwd() + '/busstop.db'
-
-open_weather_api_key = os.environ['OPEN_WEATHER_API_KEY']
-open_weather_city_name = "Sendai"
-
 OPENWX = {
     "KEY": os.environ['OPEN_WEATHER_API_KEY'],
     "CITY": "Sendai"
@@ -38,7 +34,6 @@ def get_weather():
             + OPENWX["CITY"] \
             + '&appid=' \
             + OPENWX["KEY"] \
-            + '&lang=ja'
 
         fetch_raw = urllib.request.urlopen(url)  # Access the API
         fetch_html = fetch_raw.read()  # Convert to HTML
@@ -90,7 +85,7 @@ def find_closest_stops(lat, lon, range_km):
     """
 
     try:
-        with closing(sqlite3.connect(db_path)) as conn:
+        with closing(sqlite3.connect(constants.DB_PATH)) as conn:
 
             # Search inside the range of the candidates bus stops
             # This range has the rectangular shapes;
