@@ -150,8 +150,7 @@ def find_nearest_station(lat, lon, dst):
                 "t1" for Yagiyama Zoological Park
                 "t13" for Arai
         Returns:
-            string: nearest station name & timetable of coming trains
-            1: on error
+            dict: nearest station name & distance to it
     """
 
     # Row factory to get DB content as an array of dict
@@ -167,6 +166,7 @@ def find_nearest_station(lat, lon, dst):
     line_name = "南北線" if ("n" in dst) else "東西線"
     c.execute("SELECT * FROM stations WHERE line = ?;", [line_name])
     stations = c.fetchall()
+    conn.close()
 
     # Calculate distances to every station
     distances = np.array(
@@ -181,6 +181,59 @@ def find_nearest_station(lat, lon, dst):
     return {
         "station": stations[nearest_i]["name"],
         "meters": int(round(nearest_d, 2) * 1000)}
+
+
+def list_coming_trains(dt_now, station_name, dst, isHoliday=False):
+    # Row factory to get DB content as an array of dict
+    def dict_factory(cursor, row):
+        d = {}
+        for idx, col in enumerate(cursor.description):
+            d[col[0]] = row[idx]
+        return d
+
+    def list_trains_in_the_hr(timetable, dt):
+        hr = str(dt.hour)
+
+        # Unlike datetime lib, timetable use "24:00" notation
+        hr = "0" if hr == "24" else hr
+
+        # When it's late night, or no train in the hour
+        if (hr not in timetable.keys()) \
+                or (len(timetable[hr]) == 0):
+            return []
+
+        # Parse string and get list of trains in this hour
+        train_mins = timetable[hr].split(",")
+
+        # List trains which comes after the datetime
+        return [dt.replace(
+            minute=int(train_min), second=0, microsecond=0)
+            for train_min in train_mins
+            if dt.replace(
+            minute=int(train_min), second=0, microsecond=0) > dt]
+
+    conn = sqlite3.connect(constants.DB_PATH)
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+
+    table_name = "timetable_subway_" + ("holiday" if isHoliday else "weekday")
+
+    # Note that you can't use "?" placeholder for the table name!
+    c.execute(
+        f"SELECT * FROM {table_name} WHERE sta = ? AND dst = ?;",
+        [station_name, dst])
+    timetable = c.fetchone()
+    conn.close()
+
+    # Get trains which comes in this hour　(00 to 60)
+    trains = list_trains_in_the_hr(timetable, dt_now)
+
+    # Search next hour to offer at least 3 coming trains if possible
+    if len(trains) < 3:
+        trains += list_trains_in_the_hr(timetable, dt_now + timedelta(hours=1))
+
+    # Return 3 trains at most
+    return trains[:3]
 
 
 def get_distance(lat1_deg, lon1_deg, lat2_deg, lon2_deg):
@@ -244,9 +297,18 @@ def km2deg(d_km, lat, lon):
 
 def wrapper():
 
+    now = datetime.now()
+
+    # debug
+    now = now.replace(hour=22, minute=30)
+
+    coming_trains = list_coming_trains(now, "長町", "泉中央行", False)
+    print(coming_trains)
+
+    return
+
     nearest = find_nearest_station(38.258780, 140.851185, "t13")
     print(nearest)
-    return
 
     print(get_weather())
 
