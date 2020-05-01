@@ -3,6 +3,7 @@ import urllib.request
 import pandas as pd
 import constants
 import sqlite3
+import time
 
 
 def get_soup(root_url):
@@ -15,7 +16,7 @@ def get_soup(root_url):
     return BeautifulSoup(html, "html.parser")
 
 
-def soup2dfs(soup):
+def soup2dfs(soup, dfs):
     """
     Extract the timetable info from the soup, save as dataframes.
 
@@ -27,10 +28,6 @@ def soup2dfs(soup):
         Dict of 2 dataframes.
         One is for weekdays, another is for holidays
     """
-
-    dfs = {}
-    dfs["weekday"] = create_df()
-    dfs["holiday"] = create_df()
 
     # Find timetable(s) in the soup
     # Find 4 at Sendai station, find 1 at terminal stations
@@ -81,9 +78,9 @@ def list_urls():
 
     base_url = (f"https://www.navi.kotsu.city.sendai.jp/"
                 f"dia/bustime/subway/subway_result_l.cgi?SubwayCode=")
-    urls = [base_url + str(9285)]  # Sendai sta.
-    urls += [base_url + str(1222)]  # Kitasendai sta.
-    urls += [base_url + str(975)]  # Nagamchi sta.
+    urls = [base_url + str(9285)]  # Sendai station
+    urls += [base_url + str(1222)]  # Kitasendai station
+    urls += [base_url + str(975)]  # Nagamchi station
     urls += [base_url + str(i) for i in range(6646, 6659 + 1)]  # Namboku
     urls += [base_url + str(i) for i in range(9727, 9738 + 1)]  # Tozai
     return urls
@@ -112,23 +109,53 @@ def create_df():
 
 
 def dfs2sqlite(dfs):
+    """
+    Get the dict of 2 dataframes,
+    save them into corresponding SQLite3 tables
+    """
     conn = sqlite3.connect(constants.DB_PATH)
+
     for day_type in ["weekday", "holiday"]:
         dfs[day_type].to_sql(
             "timetable_subway_" + day_type,
             conn,
             if_exists='replace',
             index=None)
+
     conn.close()
     return 0
 
 
-if __name__ == "__main__":
-
-    # urls = list_urls()
-    # soup = get_soup(urls[0])
-
+def get_sample_soup():
+    """
+    Cook the soup from the downloaded sample HTML file.
+    For debugging.
+    """
     with open("./raw/sendaista.html", mode="r", encoding="shift_jis") as f:
         soup = BeautifulSoup(f, "html.parser")
-    dfs = soup2dfs(soup)
-    dfs2sqlite(dfs)
+    return soup
+
+
+def wrapper():
+
+    dfs = {}
+    dfs["weekday"] = create_df()
+    dfs["holiday"] = create_df()
+
+    for url in list_urls():
+        # Sleep not to put a strain on the server
+        print("Sleeping before access to:", url)
+        time.sleep(5)
+
+        soup = get_soup(url)
+        dfs = soup2dfs(soup, dfs)
+        dfs2sqlite(dfs)
+
+
+if __name__ == "__main__":
+    wrapper()
+
+    '''Debug'''
+    # sample_soup = get_sample_soup()
+    # dfs = soup2dfs(sample_soup)
+    # dfs2sqlite(dfs)
