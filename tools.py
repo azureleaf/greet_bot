@@ -74,6 +74,7 @@ def get_weather():
             break
 
     return msgs
+    # return "aaa"
 
 
 def find_closest_stops(lat, lon, range_km):

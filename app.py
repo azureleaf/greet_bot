@@ -2,7 +2,6 @@ import os
 import sys
 from flask import Flask, request, abort
 from tools import get_weather, find_closest_stops
-
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -22,10 +21,10 @@ channel_secret = os.environ['LINE_CHANNEL_SECRET']
 channel_access_token = os.environ['LINE_CHANNEL_ACCESS_TOKEN']
 
 if channel_secret is None:
-    print('Specify LINE_CHANNEL_SECRET as environment variable.')
+    print('Specify LINE_CHANNEL_SECRET as an environment variable.')
     sys.exit(1)
 if channel_access_token is None:
-    print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
+    print('Specify LINE_CHANNEL_ACCESS_TOKEN as an environment variable.')
     sys.exit(1)
 
 # Instantiate classes of linebot package
@@ -83,16 +82,18 @@ def handle_message(event):
     # Change reply message from the bot
     # according to the keywords included in the message by user
     if "天気" in event.message.text:
-        reply_msg = get_weather()
+        reply_msgs = get_weather()
     else:
-        reply_msg = "こんにちは！"
+        reply_msgs = ["こんにちは！"]
+
+    reply_content = []
+    for reply_msg in reply_msgs:
+        reply_content += [TextSendMessage(text=reply_msg)]
+
+    print(reply_content)
 
     line_bot_api.reply_message(
-        event.reply_token,
-        # TextSendMessage(text=event.message.text))
-        [
-            TextSendMessage(text=reply_msg)
-        ]
+        event.reply_token, reply_content
     )
 
 
