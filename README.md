@@ -50,7 +50,8 @@
 ### Run Flask
 
 1. `export FLASK_APP=app.py`
-1. `flask run` (`python3 app.py` is deprecated)
+2. `export FLASK_DEBUG=1`
+3. `flask run` (`python3 app.py` is deprecated)
 
 ### Create Procfile
 
@@ -69,6 +70,7 @@
 - "LINE Channel Secret"
 - "LINE Channel Access Token"
 - Webhook URL
+  - `https://myappnamehere.herokuapp.com/callback`
 
 ### Heroku Setup
 
@@ -89,6 +91,20 @@
 - WSGI links Web Server & Web app
 - Flask development server can't be used for production, so you need this
 
+### Test app before deploying to Heroku
+
+1. `sudo snap install ngrok`
+2. `ngrok http 5000` (5000 is the flask port num)
+3. Write down the HTTPS address shown on the terminal: e.g. `https://abc123xy.ngrok.io/`
+4. Set the webhook URL on LINE developer page: `https://abc123xy.ngrok.io/callback`
+   - Because routing is `@app.route("./callback")` in my `app.py`
+5. Run Flask
+
+- Trouble Shooting: `Address already in use` on `flask run`
+
+1. `netstat -tulpn | grep LISTEN` to find the Flask run process
+2. `kill -9`  that process
+
 ### Deploy to Heroku
 
 1. `sudo snap install --classic heroku` : Install Heroku CLI on Ubuntu
@@ -98,6 +114,11 @@
    - `heroku git:clone -a my_heroku_app` if you need to clone
    - `git remote add heroku https://git.heroku.com/my_heroku_app.git` if you push the existing project
 4. `git push heroku master`
+
+
+## Reference
+
+- LINE Bot SDK: https://github.com/line/line-bot-sdk-python/blob/master/examples/flask-kitchensink/app.py
 
 ## Todo
 
