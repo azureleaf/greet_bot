@@ -52,6 +52,53 @@
 1. `export FLASK_APP=app.py`
 1. `flask run` (`python3 app.py` is deprecated)
 
+### Create Procfile
+
+1. `touch Procfile`
+
+### `app.py`
+
+- `event.reply_token`
+  - Reply token is required to reply
+  - Reply token changed every time you get the message
+  - Reply token can be used only once
+  - Reply token expires soon; reply as quickly as possible
+
+### Account Settings
+
+- "LINE Channel Secret"
+- "LINE Channel Access Token"
+- Webhook URL
+
+### Heroku Setup
+
+- `pip freeze >> requirements.txt`
+- `echo web: gunicorn app:app --log-file - >> Procfile`
+- `echo python-3.7.2 >> runtime.txt`
+  - Note that some Python versions aren't available on Heroku
+
+### Heroku Tips
+
+- `heroku open`
+  - Open Heroku personal page on browser
+
+### gunicorn
+
+- HTTP WSGI server for Python
+- WSGI (Web Server Gateway Interface) is an interface for Python
+- WSGI links Web Server & Web app
+- Flask development server can't be used for production, so you need this
+
+### Deploy to Heroku
+
+1. `sudo snap install --classic heroku` : Install Heroku CLI on Ubuntu
+2. `heroku login` for the 1st time; you'll be prompted to login on the browser
+3. Setup project
+   - `heroku create my_heroku_app` if you create the project
+   - `heroku git:clone -a my_heroku_app` if you need to clone
+   - `git remote add heroku https://git.heroku.com/my_heroku_app.git` if you push the existing project
+4. `git push heroku master`
+
 ## Todo
 
 - 目的地情報を入力させる欄を作る
