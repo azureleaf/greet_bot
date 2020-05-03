@@ -131,9 +131,10 @@ def handle_location(event):
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
-    """Respond to the button input by the user"""
+    """Respond to the button input sent by the user"""
 
     if event.postback.data == 'subway':
+        # Let the user choose the line
         reply_with_line_selector(event)
     elif event.postback.data == 'bus':
         tell_bus_stop(event)
@@ -143,6 +144,7 @@ def handle_postback(event):
 
 
 def reply_with_trans_selector(event):
+    '''Reply with the buttons to choose bus or subway'''
     buttons_template = ButtonsTemplate(
         title="交通機関を選択",
         text="何に乗りますか？",
@@ -159,6 +161,8 @@ def reply_with_trans_selector(event):
 
 
 def reply_with_line_selector(event):
+    '''Reply with the buttons to choose subway line'''
+
     buttons_template = ButtonsTemplate(
         title="地下鉄の路線を選択",
         text="どっち方向に行きますか？",
@@ -177,29 +181,37 @@ def reply_with_line_selector(event):
 
 
 def tell_station(event, dst):
-    # now = datetime.now()
+    '''Reply to the user with nearest station & schedule of coming trains '''
 
+    now = datetime.now()
     station = find_nearest_station(lat, lon, dst)
-    # train_times = list_coming_trains(now, station.station_name, dst, False)
+    train_times = list_coming_trains(now, station["station_name"], dst, False)
 
+    # Message of station name
     sta_msg = f"{station['station_name']}駅まで約{station['meters']}メートルです！"
-    # if len(train_times) == 0:
-    #     time_msg = "到着予定の列車はありません。"
-    # else:
-    #     time_msg = "直近の列車は以下のとおりです。\n"
-    #     for train_time in train_times:
-    #         time_msg += train_time.strftime("%H時%M分発\n")
+
+    # Message of train schedule
+    if len(train_times) == 0:
+        time_msg = "到着予定の列車はありません。"
+    else:
+        time_msg = "直近の列車は以下のとおりです。"
+        for train_time in train_times:
+            dep_time = train_time.strftime("\n%H：%M発")
+            diff_time = train_time - now
+            time_msg += f"{dep_time}（{str(int(diff_time.seconds / 60))}分後）"
 
     line_bot_api.reply_message(
         event.reply_token,
         [
             TextSendMessage(text=sta_msg),
-            # TextSendMessage(text=time_msg)
+            TextSendMessage(text=time_msg)
         ]
     )
 
 
 def tell_bus_stop(event):
+    '''Reply with the text list of nearest bus stops '''
+
     stops = find_closest_stops(lat, lon, 0.5)
 
     reply_msg = ""
