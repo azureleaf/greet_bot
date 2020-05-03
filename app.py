@@ -131,14 +131,14 @@ def handle_location(event):
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
+    """Respond to the button input by the user"""
+
     if event.postback.data == 'subway':
         reply_with_line_selector(event)
     elif event.postback.data == 'bus':
         tell_bus_stop(event)
     elif event.postback.data in ["n1", "n17", "t1", "t13"]:
-        line_bot_api.reply_message(
-            event.reply_token, TextSendMessage(text="地下鉄だよ")
-        )
+        tell_station(event, event.postback.data)
 
 
 def reply_with_trans_selector(event):
@@ -176,24 +176,24 @@ def reply_with_line_selector(event):
 
 
 def tell_station(event, dst):
-    now = datetime.now()
+    # now = datetime.now()
 
     station = find_nearest_station(lat, lon, dst)
-    train_times = list_coming_trains(now, station.station_name, dst, False)
+    # train_times = list_coming_trains(now, station.station_name, dst, False)
 
-    sta_msg = f"{station.station_name}駅まで約{station.meters}メートルです！"
-    if len(train_times) == 0:
-        time_msg = "到着予定の列車はありません。"
-    else:
-        time_msg = "直近の列車は以下のとおりです。\n"
-        for train_time in train_times:
-            time_msg += train_time.strftime("%H時%M分発\n")
+    sta_msg = f"{station['station_name']}駅まで約{station['meters']}メートルです！"
+    # if len(train_times) == 0:
+    #     time_msg = "到着予定の列車はありません。"
+    # else:
+    #     time_msg = "直近の列車は以下のとおりです。\n"
+    #     for train_time in train_times:
+    #         time_msg += train_time.strftime("%H時%M分発\n")
 
     line_bot_api.reply_message(
         event.reply_token,
         [
             TextSendMessage(text=sta_msg),
-            TextSendMessage(text=time_msg)
+            # TextSendMessage(text=time_msg)
         ]
     )
 
