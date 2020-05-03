@@ -9,7 +9,10 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, LocationMessage, TextSendMessage,
+    MessageEvent,
+    TextMessage, LocationMessage, TextSendMessage, TemplateSendMessage,
+    ButtonsTemplate,
+    PostbackAction
 )
 
 # Instantiate Flask class
@@ -46,7 +49,8 @@ def callback():
     """ Validate the request content
         Args: none
         Returns: string
-            Http 400 message, or "OK"
+            Http 400
+            "OK"
     """
     # get X-Line-Signature header value
     # Seemingly request from the LINE has signature
@@ -83,18 +87,21 @@ def handle_message(event):
     # according to the keywords included in the message by user
     if "天気" in event.message.text:
         reply_msgs = get_weather()
+        reply_content = []
+        for reply_msg in reply_msgs:
+            reply_content += [TextSendMessage(text=reply_msg)]
+        line_bot_api.reply_message(
+            event.reply_token, reply_content
+        )
+    elif "交通" in event.message.text:
+        get_button_template(event)
     else:
-        reply_msgs = ["こんにちは！"]
-
-    reply_content = []
-    for reply_msg in reply_msgs:
-        reply_content += [TextSendMessage(text=reply_msg)]
-
-    print(reply_content)
-
-    line_bot_api.reply_message(
-        event.reply_token, reply_content
-    )
+        reply_msg = (f"こんにちは！"
+                     f"「天気」というと今の仙台の天気と予報をお伝えします。"
+                     f"位置情報を投げると、近くの地下鉄駅やバス停を検索しますよ！")
+        line_bot_api.reply_message(
+            event.reply_token, [TextSendMessage(text=reply_msg)]
+        )
 
 
 @handler.add(MessageEvent, message=LocationMessage)
@@ -121,6 +128,23 @@ def handle_location(event):
             TextSendMessage(text=reply_msg)
         ]
     )
+
+
+def get_button_template(event):
+    buttons_template = ButtonsTemplate(
+        title="交通機関を選択",
+        text="どれに乗りますか？",
+        actions=[
+            PostbackAction(label="地下鉄南北線", data="subway_n"),
+            PostbackAction(label="地下鉄東西線", data="subway_t"),
+            PostbackAction(label="路線バス", data="bus"),
+        ]
+    )
+    template_message = TemplateSendMessage(
+        alt_text='ボタン要素',
+        template=buttons_template
+    )
+    line_bot_api.reply_message(event.reply_token, template_message)
 
 
 if __name__ == "__main__":
