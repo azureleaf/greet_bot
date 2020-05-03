@@ -137,7 +137,8 @@ def handle_postback(event):
         reply_with_line_selector(event)
     elif event.postback.data == 'bus':
         tell_bus_stop(event)
-    elif event.postback.data in ["n1", "n17", "t1", "t13"]:
+    elif event.postback.data in \
+            ["泉中央行", "富沢行", "八木山動物公園行", "荒井行"]:
         tell_station(event, event.postback.data)
 
 
@@ -162,10 +163,10 @@ def reply_with_line_selector(event):
         title="地下鉄の路線を選択",
         text="どっち方向に行きますか？",
         actions=[
-            PostbackAction(label="南北線（泉中央行）", data="n1"),
-            PostbackAction(label="南北線（富沢行）", data="n17"),
-            PostbackAction(label="東西線（動物公園行）", data="t1"),
-            PostbackAction(label="東西線（荒井行）", data="t13"),
+            PostbackAction(label="南北線（泉中央行）", data="泉中央行"),
+            PostbackAction(label="南北線（富沢行）", data="富沢行"),
+            PostbackAction(label="東西線（動物公園行）", data="八木山動物公園行"),
+            PostbackAction(label="東西線（荒井行）", data="荒井行"),
         ]
     )
     template_message = TemplateSendMessage(

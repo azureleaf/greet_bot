@@ -145,11 +145,8 @@ def find_nearest_station(lat, lon, dst):
             latutude, longitude (float)
                 degrees
             dst (string)
-                Destination of the train.
-                "n1" for Izumi Chuo
-                "n17" for Tomizawa
-                "t1" for Yagiyama Zoological Park
-                "t13" for Arai
+                Destination of the train:
+                "泉中央行", "富沢行", "八木山動物公園行", "荒井行"
         Returns:
             dict: nearest station name & distance to it
     """
@@ -164,7 +161,7 @@ def find_nearest_station(lat, lon, dst):
     conn = sqlite3.connect(constants.DB_PATH)
     conn.row_factory = dict_factory
     c = conn.cursor()
-    line_name = "南北線" if ("n" in dst) else "東西線"
+    line_name = "南北線" if (dst in ["泉中央行", "富沢行"]) else "東西線"
     c.execute("SELECT * FROM stations WHERE line = ?;", [line_name])
     stations = c.fetchall()
     conn.close()
@@ -322,10 +319,10 @@ def wrapper():
     coming_trains = list_coming_trains(now, "長町", "泉中央行", False)
     print(coming_trains)
 
-    return
-
-    nearest = find_nearest_station(38.258780, 140.851185, "t13")
+    nearest = find_nearest_station(38.258780, 140.851185, "泉中央行")
     print(nearest)
+
+    return
 
     print(get_weather())
 
