@@ -180,11 +180,28 @@ def find_nearest_station(lat, lon, dst):
     nearest_i = np.where(distances == nearest_d)[0][0]
 
     return {
-        "station": stations[nearest_i]["name"],
+        "station_name": stations[nearest_i]["name"],
         "meters": int(round(nearest_d, 2) * 1000)}
 
 
 def list_coming_trains(dt_now, station_name, dst, isHoliday=False):
+    """
+    Tells the trains coming.
+    Args:
+        dt_now (datetime object):
+            Reference time to search trains from.
+        station_name (string):
+            Name of the station in Japanese (e.g. 長町).
+        dst (string):
+            Destination in Japanese (e.g. 泉中央行).
+        isHoliday (bool):
+            Tells if it's weekday or holiday.
+    Returns:
+        (List of datetime object):
+            Departure times of the coming trains
+            in this / next hour;
+            3 trains at most, 0 train at least.
+    """
     # Row factory to get DB content as an array of dict
     def dict_factory(cursor, row):
         d = {}
