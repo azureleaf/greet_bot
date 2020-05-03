@@ -314,10 +314,9 @@ def km2deg(d_km, lat, lon):
 
 
 def wrapper():
+    '''Debug'''
 
     now = datetime.now()
-
-    # debug
     now = now.replace(hour=22, minute=30)
 
     coming_trains = list_coming_trains(now, "長町", "泉中央行", False)

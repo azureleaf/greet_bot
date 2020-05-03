@@ -1,19 +1,30 @@
-import os
-import sys
-from flask import Flask, request, abort
-from tools import get_weather, find_closest_stops
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError
-)
 from linebot.models import (
-    MessageEvent,
+    MessageEvent, PostbackEvent,
     TextMessage, LocationMessage, TextSendMessage, TemplateSendMessage,
     ButtonsTemplate,
     PostbackAction
 )
+from linebot.exceptions import (
+    InvalidSignatureError
+)
+from linebot import (
+    LineBotApi, WebhookHandler
+)
+import os
+import sys
+from flask import Flask, request, abort
+from tools import (get_weather,
+                   find_closest_stops,
+                   find_nearest_station,
+                   list_coming_trains,
+                   sendai_city_hall
+                   )
+from datetime import datetime
+
+# Sample position for debugging (global var)
+# This will be overwritten by user position
+lat = sendai_city_hall["lat"]
+lon = sendai_city_hall["lon"]
 
 # Instantiate Flask class
 # Give the name of the current module to the constructor
@@ -94,7 +105,7 @@ def handle_message(event):
             event.reply_token, reply_content
         )
     elif "交通" in event.message.text:
-        get_button_template(event)
+        reply_with_trans_selector(event)
     else:
         reply_msg = (f"こんにちは！"
                      f"「天気」というと今の仙台の天気と予報をお伝えします。"
@@ -111,9 +122,83 @@ def handle_location(event):
         return: void
     """
 
+    global lat, lon
     lat = event.message.latitude
     lon = event.message.longitude
 
+    tell_bus_stop(event)
+
+
+@handler.add(PostbackEvent)
+def handle_postback(event):
+    if event.postback.data == 'subway':
+        reply_with_line_selector(event)
+    elif event.postback.data == 'bus':
+        tell_bus_stop(event)
+    elif event.postback.data in ["n1", "n17", "t1", "t13"]:
+        line_bot_api.reply_message(
+            event.reply_token, TextSendMessage(text="地下鉄だよ")
+        )
+
+
+def reply_with_trans_selector(event):
+    buttons_template = ButtonsTemplate(
+        title="交通機関を選択",
+        text="何に乗りますか？",
+        actions=[
+            PostbackAction(label="地下鉄", data="subway"),
+            PostbackAction(label="路線バス", data="bus"),
+        ]
+    )
+    template_message = TemplateSendMessage(
+        alt_text='ボタン要素',
+        template=buttons_template
+    )
+    line_bot_api.reply_message(event.reply_token, template_message)
+
+
+def reply_with_line_selector(event):
+    buttons_template = ButtonsTemplate(
+        title="地下鉄の路線を選択",
+        text="どっち方向に行きますか？",
+        actions=[
+            PostbackAction(label="南北線（泉中央行）", data="n1"),
+            PostbackAction(label="南北線（富沢行）", data="n17"),
+            PostbackAction(label="東西線（動物公園行）", data="t1"),
+            PostbackAction(label="東西線（荒井行）", data="t13"),
+        ]
+    )
+    template_message = TemplateSendMessage(
+        alt_text='ボタン要素',
+        template=buttons_template
+    )
+    line_bot_api.reply_message(event.reply_token, template_message)
+
+
+def tell_station(event, dst):
+    now = datetime.now()
+
+    station = find_nearest_station(lat, lon, dst)
+    train_times = list_coming_trains(now, station.station_name, dst, False)
+
+    sta_msg = f"{station.station_name}駅まで約{station.meters}メートルです！"
+    if len(train_times) == 0:
+        time_msg = "到着予定の列車はありません。"
+    else:
+        time_msg = "直近の列車は以下のとおりです。\n"
+        for train_time in train_times:
+            time_msg += train_time.strftime("%H時%M分発\n")
+
+    line_bot_api.reply_message(
+        event.reply_token,
+        [
+            TextSendMessage(text=sta_msg),
+            TextSendMessage(text=time_msg)
+        ]
+    )
+
+
+def tell_bus_stop(event):
     stops = find_closest_stops(lat, lon, 0.5)
 
     reply_msg = ""
@@ -128,23 +213,6 @@ def handle_location(event):
             TextSendMessage(text=reply_msg)
         ]
     )
-
-
-def get_button_template(event):
-    buttons_template = ButtonsTemplate(
-        title="交通機関を選択",
-        text="どれに乗りますか？",
-        actions=[
-            PostbackAction(label="地下鉄南北線", data="subway_n"),
-            PostbackAction(label="地下鉄東西線", data="subway_t"),
-            PostbackAction(label="路線バス", data="bus"),
-        ]
-    )
-    template_message = TemplateSendMessage(
-        alt_text='ボタン要素',
-        template=buttons_template
-    )
-    line_bot_api.reply_message(event.reply_token, template_message)
 
 
 if __name__ == "__main__":
