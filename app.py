@@ -89,30 +89,18 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    """ Return messages to the LINE user who sent text message
+    """ Tell about weather for text message from the user
         args: event
         return: void
     """
 
-    # Change reply message from the bot
-    # according to the keywords included in the message by user
-    if "天気" in event.message.text:
-        reply_msgs = get_weather()
-        reply_content = []
-        for reply_msg in reply_msgs:
-            reply_content += [TextSendMessage(text=reply_msg)]
-        line_bot_api.reply_message(
-            event.reply_token, reply_content
-        )
-    elif "交通" in event.message.text:
-        reply_with_trans_selector(event)
-    else:
-        reply_msg = (f"こんにちは！"
-                     f"「天気」というと今の仙台の天気と予報をお伝えします。"
-                     f"位置情報を投げると、近くの地下鉄駅やバス停を検索しますよ！")
-        line_bot_api.reply_message(
-            event.reply_token, [TextSendMessage(text=reply_msg)]
-        )
+    reply_msgs = get_weather()
+    reply_content = []
+    for reply_msg in reply_msgs:
+        reply_content += [TextSendMessage(text=reply_msg)]
+    line_bot_api.reply_message(
+        event.reply_token, reply_content
+    )
 
 
 @handler.add(MessageEvent, message=LocationMessage)
@@ -126,7 +114,7 @@ def handle_location(event):
     lat = event.message.latitude
     lon = event.message.longitude
 
-    tell_bus_stop(event)
+    reply_with_trans_selector(event)
 
 
 @handler.add(PostbackEvent)
