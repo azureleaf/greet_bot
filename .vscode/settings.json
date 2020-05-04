@@ -1,5 +1,0 @@
-{
-    "python.pythonPath": "v_greetbot\\Scripts\\python.exe",
-    "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true
-}
