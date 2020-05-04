@@ -173,19 +173,23 @@ def tell_station(event, dst):
 
     now = datetime.now()
     station = find_nearest_station(lat, lon, dst)
-    train_times = list_coming_trains(now, station["station_name"], dst, False)
+    trains_weekday = list_coming_trains(
+        now, station["station_name"], dst, False)
+    trains_holiday = list_coming_trains(
+        now, station["station_name"], dst, True)
 
     # Message of station name
     sta_msg = f"{station['station_name']}駅まで約{station['meters']}メートルです！"
 
     # Message of train schedule
-    if len(train_times) == 0:
-        time_msg = "到着予定の列車はありません。"
-    else:
-        time_msg = "直近の列車は以下のとおりです。"
-        for train_time in train_times:
-            dep_time = train_time.strftime("\n%H：%M発")
-            diff_time = train_time - now
+    time_msg = dst + "の直近の列車です！\n"
+    for (index, trains) in enumerate([trains_weekday, trains_holiday]):
+        time_msg += ["平日ダイヤ：", "\n休日ダイヤ："][index]
+        for train in trains:
+            if len(trains) == 0:
+                time_msg = "到着予定の列車はありません。"
+            dep_time = train.strftime("\n%H：%M発")
+            diff_time = train - now
             time_msg += f"{dep_time}（{str(int(diff_time.seconds / 60))}分後）"
 
     line_bot_api.reply_message(
