@@ -55,22 +55,21 @@ def get_weather():
     )
 
     # Forecasted weather
-    for forecast in fetch_dict["forecast"]["list"]:
+    forecast_msg = ""
+    for index, forecast in enumerate(fetch_dict["forecast"]["list"]):
+        # I need forecasts only for next 24 hours
+        if index == 8:
+            break
+
         # Convert string UTC time to JST datetime
         dt_forecast = datetime.strptime(
             forecast["dt_txt"], "%Y-%m-%d %H:%M:%S") + timedelta(hours=9)
-        # I don't want 3-hour forecasts;
-        # e.g. drop 9:00 & 15:00, leave 12:00 & 18:00
-        # if dt_forecast.hour % 6 != 0:
-        #     continue
-        msgs.append(
+        forecast_msg += \
             (f'{dt_forecast.strftime("%H")}時の予報は'
              f'{str(round(forecast["main"]["temp"] - 273.15, 1))}度、'
-             f'天気は「{forecast["weather"][0]["description"]}」')
-        )
-        # I want forecasts [current, 6 hrs, 12 hrs] only
-        if len(msgs) == 9:
-            break
+             f'天気は「{forecast["weather"][0]["description"]}」\n')
+
+    msgs.append(forecast_msg)
 
     return msgs
 
@@ -317,8 +316,7 @@ def wrapper():
     '''Debug'''
 
     msgs = get_weather()
-    for msg in msgs:
-        print(msg)
+    print(msgs[1])
 
     return
 
