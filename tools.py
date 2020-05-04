@@ -225,7 +225,7 @@ def list_coming_trains(dt_now, station_name, dst, isHoliday=False):
             minute=int(train_min), second=0, microsecond=0)
             for train_min in train_mins
             if dt.replace(
-            minute=int(train_min), second=0, microsecond=0) > dt]
+            minute=int(train_min), second=0, microsecond=0) >= dt]
 
     conn = sqlite3.connect(constants.DB_PATH)
     conn.row_factory = dict_factory
@@ -245,7 +245,12 @@ def list_coming_trains(dt_now, station_name, dst, isHoliday=False):
 
     # Search next hour to offer at least 3 coming trains if possible
     if len(trains) < 3:
-        trains += list_trains_in_the_hr(timetable, dt_now + timedelta(hours=1))
+        trains += list_trains_in_the_hr(
+            timetable,
+            dt_now.replace(
+                minute=0,
+                second=0,
+                microsecond=0) + timedelta(hours=1))
 
     # Return 3 trains at most
     return trains[:3]
@@ -314,10 +319,12 @@ def wrapper():
     '''Debug'''
 
     now = datetime.now()
-    now = now.replace(hour=22, minute=30)
+    now = now.replace(hour=7, minute=58)
 
-    coming_trains = list_coming_trains(now, "長町", "泉中央行", False)
+    coming_trains = list_coming_trains(now, "長町", "富沢行", False)
     print(coming_trains)
+
+    return
 
     nearest = find_nearest_station(38.258780, 140.851185, "泉中央行")
     print(nearest)
