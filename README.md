@@ -1,6 +1,8 @@
-# バス検索用 LINE ボット
+# 仙台生活ユーティリティ LINE ボット
 
-あなたの現在地と目的地の GPS 情報を伝えると、その検索時刻の時点で最善のバス停を教えてくれます。（※現時点ではバス停検索のみ。時刻検索部分は実装中）
+- 話しかけると、仙台の現在の天気情報と６時間毎の予報をダイジェストで教えてくれます。
+- 現在地の GPS 情報を伝えると、そこから近い地下鉄駅の名前と直線距離、および直近の発車時刻を教えてくれます。
+- 現在地の GPS 情報を伝えると、そこから近いバス停の名前と直線距離を教えてくれます。
 
 ## Description
 
@@ -53,7 +55,6 @@
 2. `export FLASK_DEBUG=1`
 3. `flask run` (`python3 app.py` is deprecated)
 
-
 ### LINE Messaging API
 
 - `event.reply_token`
@@ -71,15 +72,17 @@
 
 ### Heroku Setup
 
-- `pip freeze >> requirements.txt`
+- ~~`pip freeze >> requirements.txt`~~ (Seemingly, Heroku can detect Pipfile)
 - `echo web: gunicorn app:app --log-file - >> Procfile`
-- `echo python-3.7.2 >> runtime.txt`
+- `echo python-3.7.6 >> runtime.txt`
   - Note that some Python versions aren't available on Heroku
 - Turn on / off the web app
   - `heroku ps:scale web=1 -a appnamehere` or start on Heroku website
   - `heroku ps:scale web=0 -a appnamehere` or stop on Heroku website
 - `heroku config:set LINE_CHANNEL_SECRET=foo`
 - `heroku config:set LINE_CHANNEL_ACCESS_TOKEN=bar`
+- Set OpenWeather API key as well
+- Add `.slugignore` and specify files which aren't necessary for the bot app
 - `heroku open -a appnamehere`
   - Check if it shows "hello world"
 
@@ -102,7 +105,7 @@
 - Trouble Shooting: `Address already in use` on `flask run`
 
 1. `netstat -tulpn | grep LISTEN` to find the Flask run process
-2. `kill -9`  that process
+2. `kill -9` that process
 
 ### Deploy to Heroku
 
@@ -110,7 +113,7 @@
 2. `heroku login` for the 1st time; you'll be prompted to login on the browser
 3. Setup project
    - `heroku create my_heroku_app` if you create the project
-   - `heroku git:clone -a my_heroku_app` if you need to clone
+   - ~~`heroku git:clone -a my_heroku_app` if you need to clone from Heroku~~ (According to Heroku doc, this is NOT RECOMMENDED)
    - `git remote add heroku https://git.heroku.com/my_heroku_app.git` if you push the existing project
 4. `git push heroku master`
 
