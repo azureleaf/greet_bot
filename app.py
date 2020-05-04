@@ -186,9 +186,10 @@ def tell_station(event, dst):
     time_msg = dst + "の直近の列車です！\n"
     for (index, trains) in enumerate([trains_weekday, trains_holiday]):
         time_msg += ["平日ダイヤ：", "\n休日ダイヤ："][index]
+        if len(trains) == 0:
+            time_msg += "\n到着予定がありません。"
+            continue
         for train in trains:
-            if len(trains) == 0:
-                time_msg = "到着予定の列車はありません。"
             dep_time = train.strftime("\n%H：%M発")
             diff_time = train - now
             time_msg += f"{dep_time}（{str(int(diff_time.seconds / 60))}分後）"

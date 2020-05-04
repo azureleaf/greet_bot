@@ -55,7 +55,7 @@ def get_weather():
     )
 
     # Forecasted weather
-    forecast_msg = ""
+    forecast_msg = "予報は以下のとおりです！"
     for index, forecast in enumerate(fetch_dict["forecast"]["list"]):
         # I need forecasts only for next 24 hours
         if index == 8:
@@ -65,9 +65,9 @@ def get_weather():
         dt_forecast = datetime.strptime(
             forecast["dt_txt"], "%Y-%m-%d %H:%M:%S") + timedelta(hours=9)
         forecast_msg += \
-            (f'{dt_forecast.strftime("%H")}時の予報は'
-             f'{str(round(forecast["main"]["temp"] - 273.15, 1))}度、'
-             f'天気は「{forecast["weather"][0]["description"]}」\n')
+            (f'\n{dt_forecast.strftime("%H")}時に'
+             f'{str(round(forecast["main"]["temp"] - 273.15, 1))}度で'
+             f'「{forecast["weather"][0]["description"]}」')
 
     msgs.append(forecast_msg)
 
@@ -316,7 +316,8 @@ def wrapper():
     '''Debug'''
 
     msgs = get_weather()
-    print(msgs[1])
+    for msg in msgs:
+        print(msg)
 
     return
 

@@ -117,6 +117,9 @@
    - `git remote add heroku https://git.heroku.com/my_heroku_app.git` if you push the existing project
 4. `git push heroku master`
 
+- `heroku logs --tail -a appnamehere`
+  - Show realtime log
+
 ## Reference
 
 - LINE Bot SDK: https://github.com/line/line-bot-sdk-python/blob/master/examples/flask-kitchensink/app.py
