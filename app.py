@@ -1,12 +1,23 @@
+<<<<<<< HEAD
 from linebot.models import (
     MessageEvent, PostbackEvent,
     TextMessage, LocationMessage, TextSendMessage, TemplateSendMessage,
     ButtonsTemplate,
     PostbackAction
+=======
+import os
+import sys
+from flask import Flask, request, abort
+from tools import get_weather, find_closest_stops
+
+from linebot import (
+    LineBotApi, WebhookHandler
+>>>>>>> 895a1b0751182ddfeba6c44af5e242901bd287d3
 )
 from linebot.exceptions import (
     InvalidSignatureError
 )
+<<<<<<< HEAD
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -25,6 +36,11 @@ from datetime import datetime
 # This will be overwritten by user position
 lat = sendai_city_hall["lat"]
 lon = sendai_city_hall["lon"]
+=======
+from linebot.models import (
+    MessageEvent, TextMessage, LocationMessage, TextSendMessage,
+)
+>>>>>>> 895a1b0751182ddfeba6c44af5e242901bd287d3
 
 # Instantiate Flask class
 # Give the name of the current module to the constructor
@@ -35,10 +51,17 @@ channel_secret = os.environ['LINE_CHANNEL_SECRET']
 channel_access_token = os.environ['LINE_CHANNEL_ACCESS_TOKEN']
 
 if channel_secret is None:
+<<<<<<< HEAD
     print('Specify LINE_CHANNEL_SECRET as an environment variable.')
     sys.exit(1)
 if channel_access_token is None:
     print('Specify LINE_CHANNEL_ACCESS_TOKEN as an environment variable.')
+=======
+    print('Specify LINE_CHANNEL_SECRET as environment variable.')
+    sys.exit(1)
+if channel_access_token is None:
+    print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
+>>>>>>> 895a1b0751182ddfeba6c44af5e242901bd287d3
     sys.exit(1)
 
 # Instantiate classes of linebot package
@@ -48,7 +71,11 @@ handler = WebhookHandler(channel_secret)
 
 @app.route("/")
 def hello_world():
+<<<<<<< HEAD
     """Test if the flask is correctly working
+=======
+    """Used to test if Flask
+>>>>>>> 895a1b0751182ddfeba6c44af5e242901bd287d3
         Args: none
         Returns: string
     """
@@ -60,8 +87,12 @@ def callback():
     """ Validate the request content
         Args: none
         Returns: string
+<<<<<<< HEAD
             Http 400
             "OK"
+=======
+            Http 400 message, or "OK"
+>>>>>>> 895a1b0751182ddfeba6c44af5e242901bd287d3
     """
     # get X-Line-Signature header value
     # Seemingly request from the LINE has signature
@@ -89,17 +120,37 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+<<<<<<< HEAD
     """ Tell about weather for text message from the user
+=======
+    """ Return messages to the LINE user who sent text message
+>>>>>>> 895a1b0751182ddfeba6c44af5e242901bd287d3
         args: event
         return: void
     """
 
+<<<<<<< HEAD
     reply_msgs = get_weather()
     reply_content = []
     for reply_msg in reply_msgs:
         reply_content += [TextSendMessage(text=reply_msg)]
     line_bot_api.reply_message(
         event.reply_token, reply_content
+=======
+    # Change reply message from the bot
+    # according to the keywords included in the message by user
+    if "天気" in event.message.text:
+        reply_msg = get_weather()
+    else:
+        reply_msg = "こんにちは！"
+
+    line_bot_api.reply_message(
+        event.reply_token,
+        # TextSendMessage(text=event.message.text))
+        [
+            TextSendMessage(text=reply_msg)
+        ]
+>>>>>>> 895a1b0751182ddfeba6c44af5e242901bd287d3
     )
 
 
@@ -110,6 +161,7 @@ def handle_location(event):
         return: void
     """
 
+<<<<<<< HEAD
     global lat, lon
     lat = event.message.latitude
     lon = event.message.longitude
@@ -204,6 +256,11 @@ def tell_station(event, dst):
 def tell_bus_stop(event):
     '''Reply with the text list of nearest bus stops '''
 
+=======
+    lat = event.message.latitude
+    lon = event.message.longitude
+
+>>>>>>> 895a1b0751182ddfeba6c44af5e242901bd287d3
     stops = find_closest_stops(lat, lon, 0.5)
 
     reply_msg = ""

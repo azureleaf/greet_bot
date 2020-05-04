@@ -2,6 +2,7 @@ import urllib.request
 import json
 import sqlite3
 import os
+<<<<<<< HEAD
 from datetime import datetime, timedelta
 from contextlib import closing
 from math import sin, cos, sqrt, atan2, radians
@@ -13,6 +14,16 @@ OPENWX = {
     "KEY": os.environ['OPEN_WEATHER_API_KEY'],
     "CITY": "Sendai"
 }
+=======
+from contextlib import closing
+from math import sin, cos, sqrt, atan2, radians
+
+# Set user variables
+db_path = os.getcwd() + '/busstop.db'
+open_weather_api_key = os.environ['OPEN_WEATHER_API_KEY']
+
+open_weather_city_name = "Sendai"
+>>>>>>> 895a1b0751182ddfeba6c44af5e242901bd287d3
 
 # FOR TEST USE: coordinates of some sample points
 sendai_city_hall = {
@@ -25,6 +36,7 @@ fukushima_city_hall = {
 
 def get_weather():
 
+<<<<<<< HEAD
     # Get current weather & 5 days forecast
     fetch_dict = {}
     for info_type in ["weather", "forecast"]:
@@ -75,6 +87,26 @@ def get_weather():
 
     return msgs
     # return "aaa"
+=======
+    # Retrieve via OpenWeather API, and read as JSON
+    url = 'http://api.openweathermap.org/data/2.5/weather?q=' \
+        + open_weather_city_name \
+        + '&appid=' \
+        + open_weather_api_key
+    fetch_data = urllib.request.urlopen(url)
+    html = fetch_data.read()
+    data_dict = json.loads(html)
+
+    # Extract necessary elements
+    weather = data_dict['weather'][0]['main']
+    temp_now = data_dict['main']['temp'] - 273.15
+    temp_max = data_dict['main']['temp_max'] - 273.15
+
+    fetch_data.close()
+
+    return "今日の仙台の天気は{}、予想最高気温は{}度です。今の気温は{}度ですね。" \
+        .format(weather, str(round(temp_max, 1)), str(round(temp_now, 1)))
+>>>>>>> 895a1b0751182ddfeba6c44af5e242901bd287d3
 
 
 def find_closest_stops(lat, lon, range_km):
@@ -82,15 +114,19 @@ def find_closest_stops(lat, lon, range_km):
         Args:
             latutude, longitude (float)
                 degrees
+<<<<<<< HEAD
             range_km (float)
                 range of search;
                 e.g. when 2, search inside 4km * 4km
                 square around the point specified
+=======
+>>>>>>> 895a1b0751182ddfeba6c44af5e242901bd287d3
         Returns:
             list of the names of the closest bus stops
     """
 
     try:
+<<<<<<< HEAD
         with closing(sqlite3.connect(constants.DB_PATH)) as conn:
 
             # Search inside the range of the candidates bus stops
@@ -99,6 +135,16 @@ def find_closest_stops(lat, lon, range_km):
             range_lat = km2deg(
                 range_km, lat, lon)["lat_deg"]
             range_lon = km2deg(
+=======
+        with closing(sqlite3.connect(db_path)) as conn:
+
+            # Search range of the candidates bus stops
+            # This range has the rectangular shapes;
+            # current position +/- certain distance (here, range_km)
+            range_lat = distance_to_degree(
+                range_km, lat, lon)["lat_deg"]
+            range_lon = distance_to_degree(
+>>>>>>> 895a1b0751182ddfeba6c44af5e242901bd287d3
                 range_km, lat, lon)["lon_deg"]
 
             c = conn.cursor()
@@ -139,6 +185,7 @@ def find_closest_stops(lat, lon, range_km):
         print("Error occured in sqlite! :", e.args[0])
 
 
+<<<<<<< HEAD
 def find_nearest_station(lat, lon, dst):
     """Get GPS coordinates, returns bus stops near the point
         Args:
@@ -256,6 +303,8 @@ def list_coming_trains(dt_now, station_name, dst, isHoliday=False):
     return trains[:3]
 
 
+=======
+>>>>>>> 895a1b0751182ddfeba6c44af5e242901bd287d3
 def get_distance(lat1_deg, lon1_deg, lat2_deg, lon2_deg):
     ''' Get GPS position of 2 points, returns absolute distance
         Calculation based on Spherical Trigonometry (球面三角法)
@@ -287,7 +336,11 @@ def get_distance(lat1_deg, lon1_deg, lat2_deg, lon2_deg):
     return distance
 
 
+<<<<<<< HEAD
 def km2deg(d_km, lat, lon):
+=======
+def distance_to_degree(d_km, lat, lon):
+>>>>>>> 895a1b0751182ddfeba6c44af5e242901bd287d3
     ''' Mapping distance into degree at the specific geo point
         Args:
             d_km (int)
@@ -315,6 +368,7 @@ def km2deg(d_km, lat, lon):
     return degrees
 
 
+<<<<<<< HEAD
 def wrapper():
     '''Debug'''
 
@@ -330,6 +384,9 @@ def wrapper():
     print(nearest)
 
     return
+=======
+if __name__ == "__main__":
+>>>>>>> 895a1b0751182ddfeba6c44af5e242901bd287d3
 
     print(get_weather())
 
@@ -337,7 +394,10 @@ def wrapper():
         sendai_city_hall["lat"],
         sendai_city_hall["lon"],
         0.5))
+<<<<<<< HEAD
 
 
 if __name__ == "__main__":
     wrapper()
+=======
+>>>>>>> 895a1b0751182ddfeba6c44af5e242901bd287d3
