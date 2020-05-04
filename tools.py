@@ -35,6 +35,7 @@ def get_weather():
             + OPENWX["CITY"] \
             + '&appid=' \
             + OPENWX["KEY"] \
+            + '&lang=ja'
 
         fetch_raw = urllib.request.urlopen(url)  # Access the API
         fetch_html = fetch_raw.read()  # Convert to HTML
@@ -47,12 +48,10 @@ def get_weather():
     # Current weather
     curr_weather = fetch_dict['weather']['weather'][0]['description']
     curr_temp = fetch_dict['weather']['main']['temp'] - 273.15
-    curr_pressure = fetch_dict['weather']['main']['pressure']
     curr_humidity = fetch_dict['weather']['main']['humidity']
     msgs.append(
-        (f"今の仙台の天気は{curr_weather}、気温{str(round(curr_temp, 1))}度、"
-         f"湿度{curr_humidity}％、"
-         f"気圧{curr_pressure}hPaですね。")
+        (f"今の仙台の天気は「{curr_weather}」、気温{str(round(curr_temp, 1))}度、"
+         f"湿度{curr_humidity}％ですね。")
     )
 
     # Forecasted weather
@@ -62,19 +61,18 @@ def get_weather():
             forecast["dt_txt"], "%Y-%m-%d %H:%M:%S") + timedelta(hours=9)
         # I don't want 3-hour forecasts;
         # e.g. drop 9:00 & 15:00, leave 12:00 & 18:00
-        if dt_forecast.hour % 6 != 0:
-            continue
+        # if dt_forecast.hour % 6 != 0:
+        #     continue
         msgs.append(
-            (f'{dt_forecast.hour}時の予報は'
-             f'気温が{str(round(forecast["main"]["temp"] - 273.15, 1))}度、'
-             f'天気は{forecast["weather"][0]["description"]}です。')
+            (f'{dt_forecast.strftime("%H")}時の予報は'
+             f'{str(round(forecast["main"]["temp"] - 273.15, 1))}度、'
+             f'天気は「{forecast["weather"][0]["description"]}」')
         )
         # I want forecasts [current, 6 hrs, 12 hrs] only
-        if len(msgs) == 3:
+        if len(msgs) == 9:
             break
 
     return msgs
-    # return "aaa"
 
 
 def find_closest_stops(lat, lon, range_km):
@@ -318,20 +316,20 @@ def km2deg(d_km, lat, lon):
 def wrapper():
     '''Debug'''
 
+    msgs = get_weather()
+    for msg in msgs:
+        print(msg)
+
+    return
+
     now = datetime.now()
     now = now.replace(hour=7, minute=58)
 
     coming_trains = list_coming_trains(now, "長町", "富沢行", False)
     print(coming_trains)
 
-    return
-
     nearest = find_nearest_station(38.258780, 140.851185, "泉中央行")
     print(nearest)
-
-    return
-
-    print(get_weather())
 
     print(find_closest_stops(
         sendai_city_hall["lat"],
