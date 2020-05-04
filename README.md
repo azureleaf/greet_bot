@@ -53,11 +53,8 @@
 2. `export FLASK_DEBUG=1`
 3. `flask run` (`python3 app.py` is deprecated)
 
-### Create Procfile
 
-1. `touch Procfile`
-
-### `app.py`
+### LINE Messaging API
 
 - `event.reply_token`
   - Reply token is required to reply
@@ -65,12 +62,12 @@
   - Reply token can be used only once
   - Reply token expires soon; reply as quickly as possible
 
-### Account Settings
+### Visit LINE developer website
 
-- "LINE Channel Secret"
-- "LINE Channel Access Token"
+- Note "LINE Channel Secret"
+- Note "LINE Channel Access Token"
 - Webhook URL
-  - `https://myappnamehere.herokuapp.com/callback`
+  - `https://appnamehere.herokuapp.com/callback`
 
 ### Heroku Setup
 
@@ -78,11 +75,13 @@
 - `echo web: gunicorn app:app --log-file - >> Procfile`
 - `echo python-3.7.2 >> runtime.txt`
   - Note that some Python versions aren't available on Heroku
-
-### Heroku Tips
-
-- `heroku open`
-  - Open Heroku personal page on browser
+- Turn on / off the web app
+  - `heroku ps:scale web=1 -a appnamehere` or start on Heroku website
+  - `heroku ps:scale web=0 -a appnamehere` or stop on Heroku website
+- `heroku config:set LINE_CHANNEL_SECRET=foo`
+- `heroku config:set LINE_CHANNEL_ACCESS_TOKEN=bar`
+- `heroku open -a appnamehere`
+  - Check if it shows "hello world"
 
 ### gunicorn
 
@@ -114,7 +113,6 @@
    - `heroku git:clone -a my_heroku_app` if you need to clone
    - `git remote add heroku https://git.heroku.com/my_heroku_app.git` if you push the existing project
 4. `git push heroku master`
-
 
 ## Reference
 
