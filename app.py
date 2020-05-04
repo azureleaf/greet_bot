@@ -20,6 +20,7 @@ from tools import (get_weather,
                    sendai_city_hall
                    )
 from datetime import datetime
+import pytz
 
 # Sample position for debugging (global var)
 # This will be overwritten by user position
@@ -171,7 +172,7 @@ def reply_with_line_selector(event):
 def tell_station(event, dst):
     '''Reply to the user with nearest station & schedule of coming trains '''
 
-    now = datetime.now()
+    now = datetime.now(pytz.timezone('Asia/Tokyo'))
     station = find_nearest_station(lat, lon, dst)
     trains_weekday = list_coming_trains(
         now, station["station_name"], dst, False)
