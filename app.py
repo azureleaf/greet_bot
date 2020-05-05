@@ -17,15 +17,11 @@ from tools import (get_weather,
                    find_closest_stops,
                    find_nearest_station,
                    list_coming_trains,
-                   sendai_city_hall
                    )
 from datetime import datetime
 import pytz
+import json
 
-# Sample position for debugging (global var)
-# This will be overwritten by user position
-lat = sendai_city_hall["lat"]
-lon = sendai_city_hall["lon"]
 
 # Instantiate Flask class
 # Give the name of the current module to the constructor
@@ -106,42 +102,62 @@ def handle_message(event):
 
 @handler.add(MessageEvent, message=LocationMessage)
 def handle_location(event):
-    """ Return messages to the LINE user who sent geo location
+    """ Reply to the LINE user who sent geo location with buttons
         args: event
         return: void
     """
 
-    global lat, lon
     lat = event.message.latitude
     lon = event.message.longitude
 
-    app.logger.info("Received location:", lat, lon)
-
-    reply_with_trans_selector(event)
+    reply_with_trans_selector(event, lat, lon)
 
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
     """Respond to the button input sent by the user"""
 
-    if event.postback.data == 'subway':
-        # Let the user choose the line
-        reply_with_line_selector(event)
-    elif event.postback.data == 'bus':
-        tell_bus_stop(event)
-    elif event.postback.data in \
+    # Parse stringified dict
+    params = json.loads(event.postback.data)
+
+    if params["btn"] == 'subway':
+        reply_with_line_selector(event,
+                                 params["lat"],
+                                 params["lon"])
+    elif params["btn"] == 'bus':
+        tell_bus_stop(event,
+                      params["lat"],
+                      params["lon"])
+    elif params["btn"] in \
             ["泉中央行", "富沢行", "八木山動物公園行", "荒井行"]:
-        tell_station(event, event.postback.data)
+        tell_station(event,
+                     params["lat"],
+                     params["lon"],
+                     params["btn"])
 
 
-def reply_with_trans_selector(event):
+def reply_with_trans_selector(event, lat, lon):
     '''Reply with the buttons to choose bus or subway'''
+
+    # Stringify the parameters because
+    # postback event can send only one value
+    params = {}
+    for trans in ["subway", "bus"]:
+        params[trans] = json.dumps(
+            {
+                "lat": lat,
+                "lon": lon,
+                "btn": trans
+            }
+        )
+        app.logger.info("Stringified: " + params[trans])
+
     buttons_template = ButtonsTemplate(
         title="交通機関を選択",
         text="何に乗りますか？",
         actions=[
-            PostbackAction(label="地下鉄", data="subway"),
-            PostbackAction(label="路線バス", data="bus"),
+            PostbackAction(label="地下鉄", data=params["subway"]),
+            PostbackAction(label="路線バス", data=params["bus"]),
         ]
     )
     template_message = TemplateSendMessage(
@@ -151,17 +167,29 @@ def reply_with_trans_selector(event):
     line_bot_api.reply_message(event.reply_token, template_message)
 
 
-def reply_with_line_selector(event):
+def reply_with_line_selector(event, lat, lon):
     '''Reply with the buttons to choose subway line'''
+
+    # Stringify the parameters because
+    # postback event can send only one value
+    params = {}
+    for dst in ["泉中央行", "富沢行", "八木山動物公園行", "荒井行"]:
+        params[dst] = json.dumps(
+            {
+                "lat": lat,
+                "lon": lon,
+                "btn": dst
+            }
+        )
 
     buttons_template = ButtonsTemplate(
         title="地下鉄の路線を選択",
         text="どっち方向に行きますか？",
         actions=[
-            PostbackAction(label="南北線（泉中央行）", data="泉中央行"),
-            PostbackAction(label="南北線（富沢行）", data="富沢行"),
-            PostbackAction(label="東西線（動物公園行）", data="八木山動物公園行"),
-            PostbackAction(label="東西線（荒井行）", data="荒井行"),
+            PostbackAction(label="南北線（泉中央行）", data=params["泉中央行"]),
+            PostbackAction(label="南北線（富沢行）", data=params["富沢行"]),
+            PostbackAction(label="東西線（動物公園行）", data=params["八木山動物公園行"]),
+            PostbackAction(label="東西線（荒井行）", data=params["荒井行"]),
         ]
     )
     template_message = TemplateSendMessage(
@@ -171,7 +199,7 @@ def reply_with_line_selector(event):
     line_bot_api.reply_message(event.reply_token, template_message)
 
 
-def tell_station(event, dst):
+def tell_station(event, lat, lon, dst):
     '''Reply to the user with nearest station & schedule of coming trains '''
 
     now = datetime.now(pytz.timezone('Asia/Tokyo'))
@@ -205,7 +233,7 @@ def tell_station(event, dst):
     )
 
 
-def tell_bus_stop(event):
+def tell_bus_stop(event, lat, lon):
     '''Reply with the text list of nearest bus stops '''
 
     stops = find_closest_stops(lat, lon, 0.5)
