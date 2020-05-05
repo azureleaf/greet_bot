@@ -9,7 +9,7 @@ fi
 
 if [ ! -f "subway_clip.mp4" ]
 then
-ffmpeg -ss 00:00:03 -i subway.mp4 -t 00:00:12 -c copy subway_clip.mp4
+ffmpeg -ss 00:00:03 -i subway.mp4 -t 00:00:13.500 -c copy subway_clip.mp4
 else
 echo "subway_clip.mp4 already exists. Skipped."
 fi
