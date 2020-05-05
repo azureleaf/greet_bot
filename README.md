@@ -1,4 +1,4 @@
-# LINE Sendai Utility Bot
+# 仙台おでかけアシスタント LINE Bot
 
 - テキストでメッセージを投げると、仙台の現在の天気情報と３時間毎の予報をダイジェストで教えてくれます。
 - 現在地の GPS 情報を伝えると、そこから近い地下鉄駅の名前と直線距離、および直近の発車時刻を教えてくれます。
@@ -6,7 +6,7 @@
 
 ## ToC
 
-- [LINE Sendai Utility Bot](#line-sendai-utility-bot)
+- [仙台おでかけアシスタント LINE Bot](#%e4%bb%99%e5%8f%b0%e3%81%8a%e3%81%a7%e3%81%8b%e3%81%91%e3%82%a2%e3%82%b7%e3%82%b9%e3%82%bf%e3%83%b3%e3%83%88-line-bot)
   - [ToC](#toc)
   - [Description](#description)
   - [Files](#files)
