@@ -115,6 +115,8 @@ def handle_location(event):
     lat = event.message.latitude
     lon = event.message.longitude
 
+    app.logger.info("Received location:", lat, lon)
+
     reply_with_trans_selector(event)
 
 
@@ -143,7 +145,7 @@ def reply_with_trans_selector(event):
         ]
     )
     template_message = TemplateSendMessage(
-        alt_text='ボタン要素',
+        alt_text='交通機関を選択',
         template=buttons_template
     )
     line_bot_api.reply_message(event.reply_token, template_message)
@@ -163,7 +165,7 @@ def reply_with_line_selector(event):
         ]
     )
     template_message = TemplateSendMessage(
-        alt_text='ボタン要素',
+        alt_text='地下鉄の路線を選択',
         template=buttons_template
     )
     line_bot_api.reply_message(event.reply_token, template_message)
@@ -185,7 +187,7 @@ def tell_station(event, dst):
     # Message of train schedule
     time_msg = dst + "の直近の列車です！\n"
     for (index, trains) in enumerate([trains_weekday, trains_holiday]):
-        time_msg += ["平日ダイヤ：", "\n休日ダイヤ："][index]
+        time_msg += ["\n平日ダイヤ：", "\n\n休日ダイヤ："][index]
         if len(trains) == 0:
             time_msg += "\n到着予定がありません。"
             continue
@@ -211,7 +213,7 @@ def tell_bus_stop(event):
     reply_msg = ""
     for stop in stops:
         reply_msg += "「" + stop[0] + \
-            "」まで" + str(round(stop[1]*1000)) + "メートルです。\n"
+            "」まで" + str(round(stop[1]*1000)) + "mです。\n"
 
     line_bot_api.reply_message(
         event.reply_token,
