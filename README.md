@@ -51,6 +51,8 @@
   - `stops` table: latitude & longitude of all the bus stops in Miyagi pref
   - `timebatle_subway_weekday` table: Subway schedule, as of May 1st 2020
   - `timebatle_subway_holiday` table: Subway schedule, as of May 1st 2020
+- `/demo/`
+  - Shell script files used to process screen capture movies with FFMPEG
 
 ## Requirements
 

@@ -2,4 +2,7 @@ __pycache__
 .env
 *.xml
 .vscode
-raw
+/raw/
+*.mp4
+!concat.mp4
+
